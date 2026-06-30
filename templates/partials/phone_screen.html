@@ -1,0 +1,33 @@
+<div class="phone-backdrop" id="phoneBackdrop" hidden data-mode="register">
+  <div class="phone-box" role="dialog" aria-modal="true" aria-labelledby="phoneTitle">
+    <button class="phone-close" aria-label="返回" onclick="cancelPhone()">×</button>
+    <div class="step-pill" id="phonePill">✦ 最后一步</div>
+    <h2 id="phoneTitle">绑定手机号</h2>
+    <p class="psub" id="phoneSub">为保护账号安全，绑定后方可进入应用，此步骤无法跳过。</p>
+
+    <p class="flbl">手机号码</p>
+    <div class="ph-row">
+      <input class="ph-inp" id="phoneInput" type="tel" placeholder="请输入手机号" autocomplete="tel"/>
+    </div>
+    <p class="phone-err" id="phoneErr" hidden></p>
+    <button class="confirm-btn ghost" id="sendOtpBtn" onclick="sendOtp()">发送验证码</button>
+
+    <div class="otp-section" id="otpSection" hidden>
+      <p class="flbl" style="margin-top:14px">验证码</p>
+      <div class="otp-row" id="otpRow">
+        <input class="otp-cell" maxlength="1" inputmode="numeric"/>
+        <input class="otp-cell" maxlength="1" inputmode="numeric"/>
+        <input class="otp-cell" maxlength="1" inputmode="numeric"/>
+        <input class="otp-cell" maxlength="1" inputmode="numeric"/>
+        <input class="otp-cell" maxlength="1" inputmode="numeric"/>
+        <input class="otp-cell" maxlength="1" inputmode="numeric"/>
+      </div>
+      <div class="resend-row">
+        <span id="resendTimer">验证码已发送，剩余 60 秒</span>
+        <span class="rl" id="resendLink" onclick="resendOtp()">重新发送</span>
+      </div>
+      <button class="confirm-btn" id="confirmBtn" onclick="confirmOtp()">确认</button>
+      <p class="skip-note">文件不会保留在服务器上</p>
+    </div>
+  </div>
+</div>

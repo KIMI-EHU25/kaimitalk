@@ -1,0 +1,13 @@
+<div class="net-toast" id="netToast" hidden>
+  <div class="err-toast">
+    <div class="err-ico">⚡</div>
+    <div class="err-bd">
+      <div class="err-title" id="netToastTitle">网络连接中断</div>
+      <div class="err-sub" id="netToastMsg">请求处理途中连接断开，结果未能返回，请检查网络后重试。</div>
+      <div class="err-acts">
+        <button class="retry-btn" onclick="retryLastAction()">重新发送</button>
+        <button class="dis-btn" onclick="dismissNetToast()">忽略</button>
+      </div>
+    </div>
+  </div>
+</div>

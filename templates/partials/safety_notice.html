@@ -1,0 +1,132 @@
+<!--
+  Safety / DNS-hijack advisory.
+
+  A small floating "安全提示" button at the bottom-right of every page that
+  opens a modal explaining what to do if the user sees pop-ups, the wrong
+  URL, or a certificate warning. Designed especially for mainland-China
+  users whose ISPs are known to inject ads into HTTP traffic.
+-->
+<button id="safetyBtn" class="safety-fab" type="button"
+        onclick="openSafetyNotice()" title="安全提示">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    <path d="M9 12l2 2 4-4"/>
+  </svg>
+  <span>安全提示</span>
+</button>
+
+<div class="safety-backdrop" id="safetyBackdrop" hidden onclick="if(event.target===this) closeSafetyNotice()">
+  <div class="safety-box" role="dialog" aria-modal="true" aria-labelledby="safetyTitle">
+    <div class="safety-hd">
+      <h2 id="safetyTitle">🛡️ 网络安全与隐私提示</h2>
+      <button class="safety-close" aria-label="关闭" onclick="closeSafetyNotice()">×</button>
+    </div>
+    <div class="safety-body">
+
+      <!-- region-aware DNS recommendation, populated by safety.js -->
+      <div id="safetyDnsCard" class="safety-dns-card" hidden>
+        <div class="safety-dns-hd">
+          <div>
+            <p class="safety-lbl" style="margin:0">为你推荐的 DNS</p>
+            <p class="safety-dns-sub" id="safetyDnsReason">检测中…</p>
+          </div>
+          <span class="safety-region-pill" id="safetyRegionPill">—</span>
+        </div>
+        <div class="safety-dns-row">
+          <div class="safety-dns-item">
+            <span class="safety-dns-lbl" id="safetyDnsLbl1">首选</span>
+            <code id="safetyDns1">—</code>
+            <button class="safety-copy" data-target="safetyDns1" type="button">复制</button>
+          </div>
+          <div class="safety-dns-item">
+            <span class="safety-dns-lbl" id="safetyDnsLbl2">备用</span>
+            <code id="safetyDns2">—</code>
+            <button class="safety-copy" data-target="safetyDns2" type="button">复制</button>
+          </div>
+        </div>
+        <p style="margin:10px 0 0;font-size:11px;color:var(--muted)">
+          桌面端可以直接运行项目根目录的 <code>change_dns_windows.bat</code> /
+          <code>change_dns_mac.sh</code> 一键应用以上 DNS。
+        </p>
+      </div>
+
+      <p class="safety-lbl">访问前自检三步</p>
+      <ol class="safety-list">
+        <li>
+          <b>检查地址栏</b>:确认浏览器地址栏显示的是
+          <code id="safetyExpectedHost">读取中…</code> 且左侧出现
+          <span class="safety-pill">🔒 锁形图标</span>。如果是
+          <code>http://</code>(没有 s)或图标变成红色感叹号，请立刻关闭页面。
+        </li>
+        <li>
+          <b>检查证书</b>:点击地址栏锁形图标 → <i>连接安全 / 证书有效</i>。
+          证书签发机构应为 <i>Cloudflare</i>、<i>Let's Encrypt</i> 或类似可信机构,而不是
+          <i>未知 / 未受信任</i> 的中文名称。
+        </li>
+        <li>
+          <b>检查内容</b>:网页右下方应只看到 <i>安全提示</i> 这一个浮动按钮。如果
+          额外冒出弹窗广告、博彩链接、"安装加速器" 这类提示,基本可以判定为
+          DNS 劫持或运营商插入的广告 — 此网站本身从不投放任何广告。
+        </li>
+      </ol>
+
+      <p class="safety-lbl" style="margin-top:18px">如果看到弹窗或广告</p>
+      <ul class="safety-list">
+        <li>不要点击，立即关闭那些标签页。</li>
+        <li>
+          切换 DNS 到公共解析器:
+          <code>1.1.1.1</code> · <code>8.8.8.8</code> · <code>223.5.5.5</code>(阿里)。
+          切换方法见下方"如何切换 DNS"。
+        </li>
+        <li>
+          条件允许时改用移动数据网络再访问一次。如果广告消失，基本可以确定是
+          家庭宽带运营商的 HTTP 注入。
+        </li>
+        <li>
+          清除浏览器的此网站缓存(Ctrl+Shift+Delete → 仅 cookies + 缓存),
+          然后重新打开本站。
+        </li>
+        <li>
+          如果短时间内反复出现可疑跳转，先停止使用并联系网站管理员。
+        </li>
+      </ul>
+
+      <p class="safety-lbl" style="margin-top:18px">如何切换 DNS(三大系统)</p>
+      <details class="safety-det">
+        <summary>Windows 10 / 11</summary>
+        <ol>
+          <li>设置 → 网络和 Internet → Wi-Fi(或以太网)→ 你的连接 → 编辑 DNS 设置</li>
+          <li>选择 <i>手动</i>,IPv4 首选 <code>1.1.1.1</code>,备用 <code>8.8.8.8</code></li>
+          <li>勾选 <i>加密的 DNS over HTTPS</i> → 保存</li>
+        </ol>
+      </details>
+      <details class="safety-det">
+        <summary>macOS</summary>
+        <ol>
+          <li>系统设置 → 网络 → 你的连接 → 详细信息 → DNS</li>
+          <li>把现有项目全部删掉，加入 <code>1.1.1.1</code> 和 <code>8.8.8.8</code></li>
+          <li>确定 → 刷新 DNS:终端 <code>sudo dscacheutil -flushcache</code></li>
+        </ol>
+      </details>
+      <details class="safety-det">
+        <summary>iOS / Android</summary>
+        <ol>
+          <li>系统设置 → Wi-Fi → 点击当前网络 → 配置 DNS / IP 设置</li>
+          <li>切换到 <i>手动</i>,输入 <code>1.1.1.1</code> + <code>8.8.8.8</code></li>
+          <li>或下载 <i>1.1.1.1 by Cloudflare</i> 应用，一键启用全局加密 DNS</li>
+        </ol>
+      </details>
+
+      <p class="safety-lbl" style="margin-top:18px">本站隐私承诺</p>
+      <ul class="safety-list">
+        <li>所有翻译数据保存在文件夹下。服务端不上传也不分享。</li>
+        <li>登录凭证使用 <i>仅 HttpOnly + SameSite</i> Cookie,JavaScript 无法读取。</li>
+        <li>本网站不嵌入任何第三方广告 SDK、不接入分析平台、也不投放弹窗。</li>
+        <li>当前网络连接状态:<span id="safetyConnStatus">检测中…</span></li>
+      </ul>
+
+
+    </div>
+  </div>
+</div>

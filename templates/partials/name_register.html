@@ -1,0 +1,17 @@
+<div class="phone-backdrop" id="nameBackdrop" hidden data-mode="register">
+  <div class="phone-box" role="dialog" aria-modal="true" aria-labelledby="nameTitle">
+    <button class="name-close" aria-label="取消" onclick="closeNameRegister()">×</button>
+    <div class="step-pill" id="namePill">✦ 个人资料</div>
+    <h2 id="nameTitle">设置你的名字</h2>
+    <p class="psub" id="nameSub">这是你在应用内的显示名称，之后可在用户菜单中修改。</p>
+
+    <p class="flbl">显示名称</p>
+    <div class="ph-row">
+      <input class="ph-inp" id="nameInput" type="text" maxlength="60" placeholder="例如 Kimi Hu" autocomplete="name"/>
+    </div>
+    <p class="phone-err" id="nameErr" hidden></p>
+
+    <button class="confirm-btn" id="nameConfirmBtn" onclick="confirmName()">完成注册</button>
+    <p class="skip-note" id="nameNote">完成后可立即开始使用</p>
+  </div>
+</div>

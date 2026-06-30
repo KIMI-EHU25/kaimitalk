@@ -1,0 +1,158 @@
+<div class="mob-top">
+  <div class="mob-brand">
+    <button class="brand-logo" onclick="newChat()" title="新对话" style="width:22px;height:22px;padding:0">
+      <svg width="22" height="22" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="9" fill="#161a23"/><path d="M7 14.5C7 12.015 9.015 10 11.5 10H18C20.485 10 22.5 12.015 22.5 14.5S20.485 19 18 19h-3l-3 3v-3h-.5C9.015 19 7 16.985 7 14.5Z" stroke="#7c83ff" stroke-width="1.5" stroke-linejoin="round"/><path d="M22.5 15.5H24.5C26.985 15.5 29 17.515 29 20s-2.015 4.5-4.5 4.5H24l-3 3v-3c-1.38 0-2.598-.637-3.402-1.628" stroke="#b07cff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="27" cy="10" r="3" fill="#f87171"/></svg>
+    </button>
+    楷米阅读
+  </div>
+  <button class="mob-menu" onclick="toggleSB()">☰</button>
+</div>
+
+<div class="sb-overlay" id="overlay" onclick="toggleSB()"></div>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <button class="brand-logo" onclick="newChat()" title="点击开始新对话">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="9" fill="#161a23"/><path d="M7 14.5C7 12.015 9.015 10 11.5 10H18C20.485 10 22.5 12.015 22.5 14.5S20.485 19 18 19h-3l-3 3v-3h-.5C9.015 19 7 16.985 7 14.5Z" stroke="#7c83ff" stroke-width="1.5" stroke-linejoin="round"/><path d="M22.5 15.5H24.5C26.985 15.5 29 17.515 29 20s-2.015 4.5-4.5 4.5H24l-3 3v-3c-1.38 0-2.598-.637-3.402-1.628" stroke="#b07cff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="27" cy="10" r="3" fill="#f87171"/></svg>
+      </button>
+      <div><h1>楷米阅读</h1><small>任何语言 → 中文语音</small></div>
+      <button class="sb-close" aria-label="返回对话" onclick="toggleSB()">✕</button>
+    </div>
+    <div class="hist-hd"><span>历史记录</span><span class="hist-cnt" id="histCnt">1</span></div>
+    <div class="hist-list" id="histList">
+      <div class="hist-item cur" data-sid="local-current">
+        <div class="hist-content">
+          <div class="hist-prev">新对话</div>
+          <div class="hist-when">刚刚</div>
+        </div>
+      </div>
+    </div>
+    {% include "partials/user_menu.html" %}
+  </aside>
+
+  <main class="main-area">
+    <div class="main-scroll" id="mainScroll">
+      <h2 id="chatTitle">朗读段落</h2>
+      <p class="sub">上传文件或粘贴文字 — 输出简体中文翻译 + 语音</p>
+
+      <div class="input-card">
+        <div class="seq-section" id="seqSection">
+          <p class="seq-label">处理顺序 — 拖动可调整</p>
+          <div class="seq-list" id="seqList"></div>
+        </div>
+
+        <div class="content-pane" id="contentPane">
+          <textarea class="inp-ta" id="mainTa" rows="3" placeholder="在此粘贴段落…"></textarea>
+          <div class="voice-pane" id="voicePane">
+            <p class="voice-hint">点击录音条开始，再次点击停止并加入队列</p>
+            <div class="voice-bars" id="voiceBars">
+              <button class="rec-bar" onclick="toggleRec(this)">
+                <div class="pdot"></div>
+                <span style="font-size:14px">🎙</span>
+                <span class="idle-lbl">录音段落 1 — 点击开始</span>
+                <span class="rtimer">00:00</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <input type="file" id="docInput" accept=".doc,.docx,.txt,.md,.html,.htm,.srt" hidden onchange="pickFile(event,'docx')"/>
+        <input type="file" id="imgInput" accept="image/*" hidden onchange="pickFile(event,'img')"/>
+        <input type="file" id="audInput" accept="audio/*" hidden onchange="pickFile(event,'audio')"/>
+
+        <div class="upload-wrap" id="uploadWrap">
+          <div class="urow" onclick="document.getElementById('docInput').click()">
+            <div class="urow-ico ico-doc"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            上传文档
+          </div>
+          <div class="urow" onclick="document.getElementById('imgInput').click()">
+            <div class="urow-ico ico-img"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+            上传图片
+          </div>
+          <div class="urow" onclick="document.getElementById('audInput').click()">
+            <div class="urow-ico ico-audio"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+            上传音频
+          </div>
+        </div>
+
+        <div class="loading-bar" id="loadingBar"><div class="loading-fill"></div></div>
+
+        <div class="inp-bar">
+          <button class="ic-btn" id="plusBtn" onclick="toggleUpload()">＋</button>
+          <div class="mode-tog">
+            <button class="mtb on" id="mtText" onclick="forceText()">文字</button>
+            <button class="mtb" id="mtVoice" onclick="switchVoice()">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              语音
+            </button>
+          </div>
+          <div class="sp"></div>
+
+          <!-- TTS voice picker — sits just left of the 朗读 button so the
+               user can switch voice right before submitting.  Choices flow
+               into FormData as `tts_engine`; defaults to 小楷 (fast). -->
+          <div class="tts-picker" id="ttsPicker">
+            <button class="tts-trigger" id="ttsTrigger" type="button"
+                    aria-haspopup="menu" aria-expanded="false"
+                    title="选择朗读声音">
+              <span class="tts-ico" aria-hidden="true">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+              </span>
+              <span class="tts-label" id="ttsLabel">小楷</span>
+              <svg class="tts-caret" width="10" height="10" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="tts-pop" id="ttsPop" hidden role="menu">
+              <button class="tts-row" data-engine="xiaokai" role="menuitem">
+                <div class="tts-row-hd">
+                  <strong>小楷</strong>
+                  <span class="tts-tag">中文 · 云端快速</span>
+                </div>
+                <span class="tts-desc">生成最快（国内访问可能受阻）</span>
+              </button>
+              <button class="tts-row selected" data-engine="xiaokai_senior_zh" role="menuitem">
+                <div class="tts-row-hd">
+                  <strong>小楷的学姐</strong>
+                  <span class="tts-tag premium">中文 · 拟人</span>
+                </div>
+                <span class="tts-desc">自研AI TTS模型,发音自然接近真人</span>
+              </button>
+              <button class="tts-row" data-engine="xiaokai_senior_en" role="menuitem">
+                <div class="tts-row-hd">
+                  <strong>小楷的白人学姐</strong>
+                  <span class="tts-tag premium">英文 · 拟人</span>
+                </div>
+                <span class="tts-desc">自动翻译为英文,再用TTS嗓音朗读</span>
+              </button>
+            </div>
+          </div>
+
+          <button class="send-btn" id="sendBtn" onclick="startProcess()">朗读 ↗</button>
+        </div>
+      </div>
+
+      <div class="result-card" id="resultCard">
+        <div class="res-hd">
+          <h3 id="resTitle">朗读结果</h3>
+          <div class="badges"><span class="bdg" id="resDur">—</span><span class="bdg" id="resLang">— → zh-CN</span></div>
+        </div>
+        <div class="zh-text" id="resText"></div>
+        <div class="audio-bar" style="display:none">
+          <div class="play-ico">▶</div>
+          <div class="aud-track"><div class="aud-fill"></div></div>
+          <span class="aud-time">0:00 / 0:00</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,12 @@
+:root{
+  --bg:#0b0d12;--bg-soft:#11141b;--panel:#161a23;--panel-2:#1c2230;
+  --border:#232a3a;--text:#e6e9f2;--muted:#8b93a7;
+  --accent:#7c83ff;--accent-2:#b07cff;--good:#4ade80;--bad:#f87171;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;
+  font-size:14px;min-height:100vh;
+}
+[hidden]{display:none !important}

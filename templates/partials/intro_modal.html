@@ -1,0 +1,104 @@
+<!--
+  First-visit welcome / how-to-use modal.
+
+  Shown on the very first page load (controlled by localStorage flag
+  `kaimi_intro_seen`). User can also re-open it from the user menu
+  via `openIntro()`.
+-->
+<div class="intro-backdrop" id="introBackdrop" hidden onclick="if(event.target===this) closeIntro()">
+  <div class="intro-box" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+
+    <div class="intro-hd">
+      <div class="intro-logo">
+        <svg width="38" height="38" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="9" fill="#161a23"/><path d="M7 14.5C7 12.015 9.015 10 11.5 10H18C20.485 10 22.5 12.015 22.5 14.5S20.485 19 18 19h-3l-3 3v-3h-.5C9.015 19 7 16.985 7 14.5Z" stroke="#7c83ff" stroke-width="1.5" stroke-linejoin="round"/><path d="M22.5 15.5H24.5C26.985 15.5 29 17.515 29 20s-2.015 4.5-4.5 4.5H24l-3 3v-3c-1.38 0-2.598-.637-3.402-1.628" stroke="#b07cff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="27" cy="10" r="3" fill="#f87171"/></svg>
+      </div>
+      <div>
+        <span class="intro-pill">✨ 使用指南</span>
+        <h2 id="introTitle">欢迎使用 楷米阅读</h2>
+        <p>把<b>任何语言</b>的文字、图片、文档、音频<br>一键转换成<b>简体中文</b>翻译 + 朗读音频。</p>
+      </div>
+      <button class="intro-close" aria-label="关闭" onclick="closeIntro()">×</button>
+    </div>
+
+    <div class="intro-body">
+
+      <div class="intro-steps">
+        <div class="intro-step">
+          <div class="intro-step-num">1</div>
+          <div>
+            <h3>登录 · 一秒进入</h3>
+            <p>点击右下角 <b>访客登录</b> 输入一个用户名即可使用,无需手机号或邮箱。</p>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="intro-step-num">2</div>
+          <div>
+            <h3>输入 · 文字 / 文件 / 录音</h3>
+            <p>
+              <span class="intro-tag">📝 文字</span>
+              <span class="intro-tag">🖼️ 图片 OCR</span>
+              <span class="intro-tag">📄 Word/HTML/TXT/SRT</span>
+              <span class="intro-tag">🎙️ 麦克风录音</span>
+              <span class="intro-tag">🔊 音频文件</span>
+            </p>
+            <p>点击左下角 <b>+</b> 上传文件,或切换 <b>语音</b> 模式直接录音。</p>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="intro-step-num">3</div>
+          <div>
+            <h3>朗读 · 自动翻译并生成语音</h3>
+            <p>点击右下角紫色按钮 <b>朗读 ↗</b> 即可。后台流程:
+              <code>语言检测 → 翻译 → 中文 TTS</code>。
+              支持长文本阅读,任务不会超时。</p>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="intro-step-num">4</div>
+          <div>
+            <h3>历史 · 自动保存</h3>
+            <p>每一段朗读都会保存，里面含有译文和音频，点击左侧历史记录可一键回放。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro-features">
+        <div class="intro-feat">
+          <div class="intro-feat-ico" style="background:rgba(124,131,255,.15);color:#7c83ff">🌍</div>
+          <div>
+            <b>30+ 语言互译</b>
+            <p>英、法、德、日、韩、俄、阿拉伯、泰语、越南语等。</p>
+          </div>
+        </div>
+        <div class="intro-feat">
+          <div class="intro-feat-ico" style="background:rgba(74,222,128,.15);color:#4ade80">🎵</div>
+          <div>
+            <b>自然中文 TTS</b>
+            <p>使用神经语音 (即NMT),清晰自然,可下载 MP3。</p>
+          </div>
+        </div>
+        <div class="intro-feat">
+          <div class="intro-feat-ico" style="background:rgba(248,113,113,.15);color:#f87171">🔒</div>
+          <div>
+            <b>数据安全</b>
+            <p>所有数据保存云端,不上传任何其他服务器。</p>
+          </div>
+        </div>
+        <div class="intro-feat">
+          <div class="intro-feat-ico" style="background:rgba(176,124,255,.15);color:#b07cff">🛡️</div>
+          <div>
+            <b>反劫持保护</b>
+            <p>严格 CSP 防止运营商注入广告,右下角 🛡️ 提供 DNS 切换指引。</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="intro-ft">
+      <label class="intro-dont"><input type="checkbox" id="introDont"> 下次启动不再显示</label>
+      <button class="intro-go" onclick="closeIntro(true)">开始使用 →</button>
+    </div>
+
+  </div>
+</div>
