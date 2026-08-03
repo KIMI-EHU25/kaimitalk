@@ -41,6 +41,8 @@
         togglePop(false);
         if (act === 'rename'){
           window.openNameRegister('edit');
+        } else if (act === 'activity'){
+          if (typeof window.openActivity === 'function') window.openActivity();
         } else if (act === 'intro'){
           if (typeof window.openIntro === 'function') window.openIntro();
         } else if (act === 'logout'){

@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}?v={{ cache_bust }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/safety.css') }}?v={{ cache_bust }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/intro.css') }}?v={{ cache_bust }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/activity.css') }}?v={{ cache_bust }}">
 </head>
 <body>
 
@@ -31,6 +32,7 @@
 {% include "partials/context_menu.html" %}
 {% include "partials/safety_notice.html" %}
 {% include "partials/intro_modal.html" %}
+{% include "partials/activity_modal.html" %}
 
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/intlTelInput.min.js"></script>
 <script src="{{ url_for('static', filename='js/network.js') }}?v={{ cache_bust }}"></script>
@@ -39,6 +41,7 @@
 <script src="{{ url_for('static', filename='js/name.js') }}?v={{ cache_bust }}"></script>
 <script src="{{ url_for('static', filename='js/user_menu.js') }}?v={{ cache_bust }}"></script>
 <script src="{{ url_for('static', filename='js/sessions.js') }}?v={{ cache_bust }}"></script>
+<script src="{{ url_for('static', filename='js/activity.js') }}?v={{ cache_bust }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}?v={{ cache_bust }}"></script>
 <script src="{{ url_for('static', filename='js/safety.js') }}?v={{ cache_bust }}"></script>
 <script src="{{ url_for('static', filename='js/intro.js') }}?v={{ cache_bust }}"></script>
