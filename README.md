@@ -6,6 +6,8 @@ audio in **any language** into a Simplified-Chinese translation plus spoken audi
 > This repository contains the **front-end only** (HTML / CSS / JS). The backend
 > server, models, and all credentials are kept private.
 
+_Last updated: 2026-08-03_
+
 ## What's here
 
 ```
