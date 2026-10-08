@@ -1,0 +1,27 @@
+name: Daily activity log
+
+on:
+  schedule:
+    # Runs once a day; the script itself decides (randomly, with a monthly
+    # floor) whether today actually gets a commit.
+    - cron: '0 13 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  maybe-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Decide and maybe commit
+        id: activity
+        run: bash .github/scripts/daily_activity.sh
+
+      - name: Push
+        if: steps.activity.outputs.committed == 'true'
+        run: git push origin HEAD:${{ github.ref_name }}
