@@ -1,0 +1,36 @@
+name: Daily contribution
+
+on:
+  schedule:
+    - cron: '0 15 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  contribute:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Decide and log today's contribution
+        run: node scripts/make-contribution.js
+
+      - name: Commit and push if changed
+        run: |
+          if ! git diff --quiet -- scripts/contribution-log.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add scripts/contribution-log.json
+            git commit -m "chore: daily contribution log update"
+            git push
+          else
+            echo "No changes to commit today."
+          fi
